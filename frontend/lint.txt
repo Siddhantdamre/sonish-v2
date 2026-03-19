@@ -1,0 +1,34 @@
+﻿
+> frontend@0.0.0 lint
+> eslint .
+
+
+C:\Users\siddh\.gemini\antigravity\scratch\sonish-v2\frontend\src\components\home\FeaturedCategories.jsx
+  1:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\siddh\.gemini\antigravity\scratch\sonish-v2\frontend\src\components\home\Hero.jsx
+  1:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\siddh\.gemini\antigravity\scratch\sonish-v2\frontend\src\components\home\NewArrivals.jsx
+  4:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\siddh\.gemini\antigravity\scratch\sonish-v2\frontend\src\components\layout\CartDrawer.jsx
+  1:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\siddh\.gemini\antigravity\scratch\sonish-v2\frontend\src\components\layout\CookieBanner.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\siddh\.gemini\antigravity\scratch\sonish-v2\frontend\src\components\layout\Navbar.jsx
+  5:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\siddh\.gemini\antigravity\scratch\sonish-v2\frontend\src\components\product\ProductCard.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\siddh\.gemini\antigravity\scratch\sonish-v2\frontend\src\components\ui\Assistant.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\siddh\.gemini\antigravity\scratch\sonish-v2\frontend\src\pages\Home.jsx
+  1:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+Γ£û 9 problems (9 errors, 0 warnings)
+

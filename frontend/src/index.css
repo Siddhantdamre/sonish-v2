@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  /* Premium Clothing Brand Theme */
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --color-charcoal: #1a1a1a;
+  --color-sand: #f4f1eb;
+  --color-gold: #c5a880;
+  --color-offwhite: #faf9f6;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-offwhite);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body ::selection {
+    background-color: var(--color-charcoal);
+    color: white;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+}
+
+/* Custom Utilities for smooth scroll & hiding scrollbars */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
