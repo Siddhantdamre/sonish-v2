@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Share2, Truck, RefreshCw, Star, Minus, Plus, ShieldCheck, X } from 'lucide-react';
 import ProductSkeleton from '../components/product/ProductSkeleton';
+import DOMPurify from 'dompurify';
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -152,8 +153,8 @@ const ProductDetails = () => {
                         <h1 className="text-3xl md:text-4xl font-serif text-charcoal dark:text-offwhite mb-4">{product.name}</h1>
 
                         <div className="flex items-center gap-4 mb-8">
-                            <span className="text-lg text-charcoal/50 dark:text-offwhite/50 line-through font-serif">₹{(product.price * 1.3).toFixed(2)}</span>
-                            <span className="text-2xl text-red-600 dark:text-red-400 font-serif font-medium">₹{product.price.toFixed(2)}</span>
+                            <span className="text-lg text-charcoal/50 dark:text-offwhite/50 line-through font-serif">₹{((product?.price || 0) * 1.3).toFixed(2)}</span>
+                            <span className="text-2xl text-red-600 dark:text-red-400 font-serif font-medium">₹{(product?.price || 0).toFixed(2)}</span>
                         </div>
 
                         {/* Size Selector */}
@@ -187,7 +188,7 @@ const ProductDetails = () => {
                                 onClick={handleAddToCart}
                                 className="flex-1 bg-charcoal dark:bg-offwhite text-white dark:text-charcoal h-14 text-xs uppercase tracking-widest hover:bg-black dark:hover:bg-white transition-colors flex items-center justify-center gap-2"
                             >
-                                Add to Cart <span className="text-white/50 dark:text-charcoal/50">- ₹{(product.price * quantity).toFixed(2)}</span>
+                                Add to Cart <span className="text-white/50 dark:text-charcoal/50">- ₹{((product?.price || 0) * quantity).toFixed(2)}</span>
                             </button>
 
                             <div className="flex gap-2">
@@ -226,7 +227,7 @@ const ProductDetails = () => {
                 {/* Tabs */}
                 <div className="mt-24">
                     <div className="flex border-b border-charcoal/10 dark:border-offwhite/10 gap-8 mb-8 overflow-x-auto no-scrollbar">
-                        {['description', 'additional information', 'reviews (1)'].map((tab) => (
+                        {['description', 'additional information', `reviews (${product.reviews?.length || 0})`].map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
@@ -241,7 +242,7 @@ const ProductDetails = () => {
                         {activeTab === 'description' && (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 {product.description ? (
-                                    <div dangerouslySetInnerHTML={{ __html: product.description }} className="space-y-4 [&>p]:mb-4" />
+                                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description) }} className="space-y-4 [&>p]:mb-4" />
                                 ) : (
                                     <p>Upgrade your wardrobe with this fashion-forward item, designed for effortless style and comfort.</p>
                                 )}
@@ -260,20 +261,33 @@ const ProductDetails = () => {
                             </motion.div>
                         )}
 
-                        {activeTab === 'reviews (1)' && (
+                        {activeTab.startsWith('reviews') && (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-10">
-                                {/* Existing Review */}
-                                <div className="flex gap-4 border-b border-charcoal/10 dark:border-offwhite/10 pb-8">
-                                    <div className="w-12 h-12 bg-charcoal/10 dark:bg-offwhite/10 rounded-full flex items-center justify-center font-serif text-xl text-charcoal dark:text-offwhite">S</div>
-                                    <div>
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <h4 className="font-medium text-charcoal dark:text-offwhite">Sarah M.</h4>
-                                            <div className="flex text-gold"><Star className="w-3 h-3 fill-current" /><Star className="w-3 h-3 fill-current" /><Star className="w-3 h-3 fill-current" /><Star className="w-3 h-3 fill-current" /><Star className="w-3 h-3 fill-current" /></div>
+                                {/* Reviews List */}
+                                {product.reviews && product.reviews.length > 0 ? (
+                                    product.reviews.map((review) => (
+                                        <div key={review._id} className="flex gap-4 border-b border-charcoal/10 dark:border-offwhite/10 pb-8">
+                                            <div className="w-12 h-12 bg-charcoal/10 dark:bg-offwhite/10 rounded-full flex items-center justify-center font-serif text-xl text-charcoal dark:text-offwhite">
+                                                {review.name.charAt(0).toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <h4 className="font-medium text-charcoal dark:text-offwhite">{review.name}</h4>
+                                                    <div className="flex text-gold">
+                                                        {[...Array(review.rating)].map((_, i) => <Star key={i} className="w-3 h-3 fill-current" />)}
+                                                    </div>
+                                                </div>
+                                                <span className="text-xs text-charcoal/50 dark:text-offwhite/50 block mb-3">
+                                                    {review.createdAt ? new Date(review.createdAt).toLocaleDateString() : 'Verified Buyer'}
+                                                </span>
+                                                <p className="text-charcoal/80 dark:text-offwhite/80">{review.comment}</p>
+                                            </div>
                                         </div>
-                                        <span className="text-xs text-charcoal/50 dark:text-offwhite/50 block mb-3">Verified Buyer - March 15, 2026</span>
-                                        <p className="text-charcoal/80 dark:text-offwhite/80">Absolutely love the fit and the material. True to size and looks extremely premium in person. The golden floral pattern catches the light beautifully. Highly recommend!</p>
-                                    </div>
-                                </div>
+                                    ))
+                                ) : (
+                                    <p className="text-charcoal/60 dark:text-offwhite/60">No reviews yet. Be the first to review this product!</p>
+                                )}
+
 
                                 {/* Write a Review Form */}
                                 <div className="bg-white dark:bg-charcoal/50 p-6 md:p-8 border border-charcoal/10 dark:border-offwhite/10">
@@ -311,7 +325,7 @@ const ProductDetails = () => {
                     <img src={mainImage} alt="thumbnail" className="w-12 h-12 object-cover rounded-sm" />
                     <div>
                         <h4 className="text-sm font-medium text-charcoal dark:text-offwhite truncate max-w-xs">{product.name}</h4>
-                        <span className="text-xs text-red-600 dark:text-red-400">₹{product.price.toFixed(2)}</span>
+                        <span className="text-xs text-red-600 dark:text-red-400">₹{(product?.price || 0).toFixed(2)}</span>
                     </div>
                     <div className="ml-auto flex items-center gap-4">
                         <button onClick={handleAddToCart} className="bg-charcoal dark:bg-offwhite text-white dark:text-charcoal px-8 py-3 text-xs uppercase tracking-widest hover:bg-black dark:hover:bg-white transition-colors">

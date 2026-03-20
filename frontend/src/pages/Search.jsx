@@ -29,8 +29,8 @@ const Search = () => {
 
     // Filter products based on the search query
     const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(query.toLowerCase()) ||
-        product.category.toLowerCase().includes(query.toLowerCase())
+        (product.name?.toLowerCase() || '').includes(query.toLowerCase()) ||
+        (product.category?.toLowerCase() || '').includes(query.toLowerCase())
     );
 
     return (
