@@ -1,0 +1,131 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --font-primary: "Inter", sans-serif;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
+
+@theme {
+  /* Premium Clothing Brand Theme */
+  --font-serif: "Playfair Display", serif;
+  --font-sans: var(--font-primary);
+
+  --color-charcoal: #1a1a1a;
+  --color-sand: #f4f1eb;
+  --color-gold: #c5a880;
+  --color-offwhite: #faf9f6;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-offwhite);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Smooth fade! */
+  }
+
+  #root {
+    min-height: 100dvh;
+  }
+
+  /* This forces the whole body to turn dark */
+  .dark body {
+    background-color: var(--color-charcoal);
+    color: var(--color-offwhite);
+  }
+
+  body ::selection {
+    background-color: var(--color-charcoal);
+    color: white;
+  }
+
+  .dark body ::selection {
+    background-color: var(--color-offwhite);
+    color: var(--color-charcoal);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+  }
+}
+
+/* Custom Utilities for smooth scroll & hiding scrollbars */
+@layer utilities {
+  .safe-pt {
+    padding-top: var(--safe-top);
+  }
+
+  .safe-pb {
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .safe-bottom-6 {
+    bottom: max(1.5rem, calc(var(--safe-bottom) + 1rem));
+  }
+
+  .safe-bottom-10 {
+    bottom: max(2.5rem, calc(var(--safe-bottom) + 1.5rem));
+  }
+
+  .safe-left-6 {
+    left: max(1.5rem, calc(var(--safe-left) + 1rem));
+  }
+
+  .safe-right-6 {
+    right: max(1.5rem, calc(var(--safe-right) + 1rem));
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@supports (height: 100dvh) {
+  .min-h-screen {
+    min-height: 100dvh;
+  }
+
+  .h-screen {
+    height: 100dvh;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  input:not([type='checkbox']):not([type='radio']),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+button,
+a {
+  touch-action: manipulation;
+}

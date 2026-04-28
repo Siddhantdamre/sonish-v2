@@ -1,0 +1,16 @@
+name: Keep Production Backend Awake
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping production health endpoint
+        run: |
+          curl --fail --silent --show-error \
+            --max-time 30 \
+            https://sonish-backend.onrender.com/api/health > /dev/null
