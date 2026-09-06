@@ -27,7 +27,7 @@ export const getSettings = asyncHandler(async (req, res) => {
       if (!existingSettings) {
         const createdSettings = await Settings.create({
           activeFont: "'Inter', sans-serif",
-          editorialImage: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80\u0026w=1200\u0026auto=format\u0026fit=crop",
+          editorialImage: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop",
         });
 
         return createdSettings.toObject();

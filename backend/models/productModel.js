@@ -76,48 +76,11 @@ const productSchema = mongoose.Schema(
         stock: { type: Number, required: true, default: 0 },
       }
     ],
-    sizeAndFit: {
-      type: String,
-    },
-    sizeChart: {
-      type: String, // URL or Base64 of the size guide image
-    },
-    materialAndCare: {
-      type: String,
-    },
-    specifications: [
-      {
-        label: { type: String },
-        value: { type: String },
-      }
-    ],
-    sku: {
-      type: String,
-      unique: true,
-      sparse: true,
-    },
-    isTrending: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
   },
   {
     timestamps: true,
   }
 );
-
-// Auto-generate SKU before saving if not provided
-productSchema.pre('save', async function () {
-  if (!this.sku) {
-    const prefix = (this.category || 'GEN')
-      .toUpperCase()
-      .replace(/[^A-Z]/g, '')
-      .slice(0, 3);
-    const randomHex = Math.random().toString(16).substring(2, 6).toUpperCase();
-    this.sku = `SNH-${prefix}-${randomHex}`;
-  }
-});
 
 const Product = mongoose.model('Product', productSchema);
 

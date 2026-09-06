@@ -3,3 +3,12 @@ node_modules/
 dist/
 .DS_Store
 .vercel
+
+# Zip-extraction artifacts. `backend_extracted/` and `backend_from_zip/` are
+# whole duplicate copies of backend/ left behind by unzipping a deploy bundle,
+# and __MACOSX/ is macOS resource-fork noise from the same archives. 42 MB of
+# files that are already tracked once, under their real paths.
+__MACOSX/
+backend_extracted/
+backend_from_zip/
+backend/backend.log

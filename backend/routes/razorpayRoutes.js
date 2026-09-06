@@ -7,29 +7,16 @@ import { protect } from '../middleware/authMiddleware.js';
 dotenv.config();
 
 const router = express.Router();
-const getRazorpayClient = () => {
-  const keyId = process.env.RAZORPAY_KEY_ID;
-  const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
-  if (!keyId || !keySecret) {
-    return null;
-  }
-
-  return new Razorpay({
-    key_id: keyId,
-    key_secret: keySecret,
-  });
-};
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 // @route   POST /api/razorpay/create-order
 // @access  Private
 router.post('/create-order', protect, async (req, res) => {
   try {
-    const razorpay = getRazorpayClient();
-    if (!razorpay) {
-      return res.status(503).json({ error: 'Online payments are not configured yet.' });
-    }
-
     const { totalAmount } = req.body; // Amount should be in rupees
 
     const options = {
@@ -55,10 +42,6 @@ router.post('/create-order', protect, async (req, res) => {
 // @access  Private
 router.post('/verify', protect, async (req, res) => {
   try {
-    if (!process.env.RAZORPAY_KEY_SECRET) {
-      return res.status(503).json({ success: false, message: 'Online payments are not configured yet.' });
-    }
-
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;

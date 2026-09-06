@@ -1,9 +1,6 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "engines": {
-    "node": "20.x"
-  },
   "type": "module",
   "main": "server.js",
   "scripts": {
@@ -25,14 +22,10 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "express-async-handler": "^1.2.0",
-    "express-rate-limit": "^8.3.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.3.1",
-    "nodemailer": "^8.0.3",
-    "qrcode": "^1.5.4",
     "razorpay": "^2.9.6",
-    "resend": "^6.10.0",
     "stripe": "^20.4.1"
   },
   "devDependencies": {

@@ -5,25 +5,16 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      // Name is not strictly required if logging in via phone initially.
-      required: false,
+      required: true,
     },
     email: {
       type: String,
-      // Email is not required for phone-only users.
-      required: false,
+      required: true,
       unique: true,
-      sparse: true, // Allows multiple null/undefined values
-    },
-    phone: {
-      type: String,
-      required: false,
-      unique: true,
-      sparse: true,
     },
     password: {
       type: String,
-      required: false, // Not required for OTP users
+      required: true,
     },
     isAdmin: {
       type: Boolean,
@@ -64,9 +55,9 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 // Hook to hash password before saving if it has been modified
-userSchema.pre('save', async function () {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
-    return;
+    next();
   }
 
   const salt = await bcrypt.genSalt(10);

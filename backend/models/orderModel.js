@@ -13,8 +13,6 @@ const orderSchema = mongoose.Schema(
         qty: { type: Number, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
-        size: { type: String },
-        sku: { type: String },
         product: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
@@ -58,14 +56,6 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: 0.0,
     },
-    discountPrice: {
-      type: Number,
-      required: true,
-      default: 0.0,
-    },
-    couponCode: {
-      type: String,
-    },
     isPaid: {
       type: Boolean,
       required: true,
@@ -82,32 +72,6 @@ const orderSchema = mongoose.Schema(
     deliveredAt: {
       type: Date,
     },
-    isShipped: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    shippedAt: {
-      type: Date,
-    },
-    trackingNumber: {
-      type: String,
-    },
-    carrier: {
-      type: String,
-      default: 'Delhivery',
-    },
-    trackingStatus: {
-      type: String,
-      default: 'Processing',
-    },
-    trackingHistory: [
-      {
-        status: String,
-        location: String,
-        timestamp: Date,
-      },
-    ],
   },
   {
     timestamps: true,
